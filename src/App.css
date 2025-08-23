@@ -1,0 +1,145 @@
+:root {
+  --red: #F6598E;
+  --orange: #F09262;
+  --yellow: #EDE874;
+  --lime: #C2E774;
+  --green: #91E478;
+  --aqua: #83EDCF;
+  --skye: #86DCE9;
+  --snow: #83C4E6;
+  --blue: #7796DF;
+  --purple: #8B79E8;
+  --violet: #B37FED;
+  --pink: #F186ED;
+  --cherry: #CC6D91;
+
+  --text: #CED1F0;
+  --subtext1: #B6B8DE;
+  --subtext0: #999AC7;
+  --overlay2: #8787B2;
+  --overlay1: #6D6D93;
+  --overlay0: #545573;
+  --surface2: #3C3D53;
+  --surface1: #2A2C3B;
+  --surface0: #1E1F2A;
+  --base: #14161D;
+  --mantle: #0E0F15;
+  --crust: #090A0F;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--base);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+#layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* On small screens: swap order */
+@media (max-width: 768px) {
+  #layout {
+    grid-template-columns: 1fr;
+  }
+  #info {
+    order: -1; /* Put info section first */
+  }
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--purple);
+  border-bottom: 2px solid var(--overlay0);
+  padding-bottom: 8px;
+}
+
+#profiles {
+  max-width: 450px;
+}
+
+.profiles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.user-card {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface0);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  border: 1px solid var(--overlay0);
+}
+
+.user-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  border-color: var(--purple);
+}
+
+.banner {
+  height: 140px;
+  overflow: hidden;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid var(--surface0);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  background: var(--crust);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-info {
+  padding: 60px 20px 20px;
+  text-align: center;
+}
+
+.user-info h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.user-info .did {
+  font-size: 0.85rem;
+  color: var(--subtext0);
+  margin: 6px 0;
+  word-break: break-all;
+}
+
+.user-info .description {
+  font-size: 0.95rem;
+  color: var(--subtext1);
+  margin-top: 8px;
+  line-height: 1.4;
+}
