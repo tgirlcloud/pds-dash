@@ -1,54 +1,87 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import { getPdsUsers } from '.'
-import type { AppBskyActorDefs } from '@atcute/bluesky';
+import { useEffect, useState } from "react";
+import "./App.css";
+import { getPdsUsers, getVersion } from ".";
+import type { UserProfile } from ".";
 
 function App() {
-  const [users, setUsers] = useState<AppBskyActorDefs.ProfileViewDetailed[] | undefined>();
+  const [users, setUsers] = useState<UserProfile[] | undefined>();
+  const [version, setVersion] = useState<string | undefined>();
 
   useEffect(() => {
-    getPdsUsers().then(users => setUsers(users));
-  }, [])
+    getPdsUsers().then((users) => setUsers(users));
+    getVersion().then((v) => setVersion(v));
+  }, []);
 
   return (
-    <div id="layout">
-      <aside id="profiles">
-        <h1 className="section-title">Profiles</h1>
-        <div className="profiles-list">
-          {users && users.map((user) => (
-            <a className="user-card" key={user.did} href={`https://bsky.app/profile/${user.did}`}>
-              {user.banner ? <div className="banner"> <img src={user.banner} alt={`${user.handle} banner`} /></div> : <div className="banner" /> }
-              <div className="avatar">
-                <img src={user.avatar} alt={`${user.handle} avatar`} />
-              </div>
-              <div className="user-info">
-                <h2>{user.handle}</h2>
-                <p className="did">{user.did}</p>
-                <p className="description">{user.description}</p>
-              </div>
+    <>
+      <main className="main">
+        <div className="hero card">
+          <h1 className="hero-title">tgirl.cloud PDS</h1>
+          <p className="hero-subtitle">
+            A public personal data server (PDS) for Atproto
+          </p>
+
+          <div className="hero-warning">
+            <p>
+              This PDS is currently invite-only. You’ll need a valid invite code
+              to join.
+            </p>
+          </div>
+
+          <div className="hero-actions">
+            <a
+              className="btn primary"
+              href="mailto:me@isabelroses.com?subject=joining%20the%20PDS"
+            >
+              Request Invite
             </a>
-          ))}
+            <a className="btn" href="https://pdsls.dev/pds.tgirl.cloud">
+              Explore
+            </a>
+          </div>
         </div>
-      </aside>
 
-      <main id="info">
-        <section id="service-info">
-          <h1 className="section-title">Service Information</h1>
-          <p>I didn't know what to put here</p>
-          <p><strong>Operator:</strong> did:plc:msjw2c6vob56zkr3zx7nt6wc</p>
-        </section>
+        <div className="stats-cards">
+          <div className="stat card">
+            <p className="stat-label">Users</p>
+            <p className="stat-value">{users?.length ?? "Loading..."}</p>
+          </div>
 
-        <section id="join">
-          <h1 className="section-title">How to Join</h1>
-          <ol>
-            <li>First send a dm to @tgirl.cloud</li>
-            <li>You should receive a invite code if you are accepted</li>
-            <li>You should now use a tool like <a href="https://pdsmoover.com/">pdsmoover</a> to move to the pds</li>
-          </ol>
-        </section>
+          <div className="stat card">
+            <p className="stat-label">PDS Version</p>
+            <p className="stat-value">{version}</p>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="section-title">Users</h2>
+          <div className="users-grid">
+            {users ? (
+              users.map((user) => (
+                <div key={user.did} className="user-card card">
+                  {user.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={`${user.displayName ?? user.handle}'s avatar`}
+                      className="user-avatar"
+                    />
+                  ) : (
+                    <div className="user-avatar placeholder" />
+                  )}
+                  <h3 className="user-name">
+                    {user.displayName ?? user.handle}
+                  </h3>
+                  <p className="user-handle">@{user.handle}</p>
+                </div>
+              ))
+            ) : (
+              <p>Loading users...</p>
+            )}
+          </div>
+        </div>
       </main>
-    </div>
+    </>
   );
 }
 
-export default App
+export default App;

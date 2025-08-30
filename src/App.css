@@ -1,145 +1,239 @@
 :root {
-  --red: #F6598E;
-  --orange: #F09262;
-  --yellow: #EDE874;
-  --lime: #C2E774;
-  --green: #91E478;
-  --aqua: #83EDCF;
-  --skye: #86DCE9;
-  --snow: #83C4E6;
-  --blue: #7796DF;
-  --purple: #8B79E8;
-  --violet: #B37FED;
-  --pink: #F186ED;
-  --cherry: #CC6D91;
+  --red: #f6598e;
+  --orange: #f09262;
+  --yellow: #ede874;
+  --lime: #c2e774;
+  --green: #91e478;
+  --aqua: #83edcf;
+  --skye: #86dce9;
+  --snow: #83c4e6;
+  --blue: #7796df;
+  --purple: #8b79e8;
+  --violet: #b37fed;
+  --pink: #f186ed;
+  --cherry: #cc6d91;
 
-  --text: #CED1F0;
-  --subtext1: #B6B8DE;
-  --subtext0: #999AC7;
-  --overlay2: #8787B2;
-  --overlay1: #6D6D93;
+  --text: #ced1f0;
+  --subtext1: #b6b8de;
+  --subtext0: #999ac7;
+  --overlay2: #8787b2;
+  --overlay1: #6d6d93;
   --overlay0: #545573;
-  --surface2: #3C3D53;
-  --surface1: #2A2C3B;
-  --surface0: #1E1F2A;
-  --base: #14161D;
-  --mantle: #0E0F15;
-  --crust: #090A0F;
+  --surface2: #3c3d53;
+  --surface1: #2a2c3b;
+  --surface0: #1e1f2a;
+  --base: #14161d;
+  --mantle: #0e0f15;
+  --crust: #090a0f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  background: var(--base);
+  background: linear-gradient(
+    to bottom left,
+    var(--green) 0%,
+    var(--green) 32.95%,
+    var(--base) 33%,
+    var(--base) 100%
+  );
+
   color: var(--text);
-  line-height: 1.6;
-}
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
 
-#layout {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 30px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
-
-/* On small screens: swap order */
-@media (max-width: 768px) {
-  #layout {
-    grid-template-columns: 1fr;
-  }
-  #info {
-    order: -1; /* Put info section first */
-  }
-}
-
-.section-title {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  color: var(--purple);
-  border-bottom: 2px solid var(--overlay0);
-  padding-bottom: 8px;
-}
-
-#profiles {
-  max-width: 450px;
-}
-
-.profiles-list {
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  align-items: center;
+
+  min-height: 100vh;
 }
 
-.user-card {
-  width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
+#root {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: 64rem;
+  padding-inline: 8rem;
+  margin-block: 2rem;
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding-inline: 2rem;
+  }
+}
+
+@media (max-width: 416px) {
+  #root {
+    padding-inline: unset;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.card {
   background: var(--surface0);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  position: relative;
-  border: 1px solid var(--overlay0);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px var(--crust);
 }
 
-.user-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-  border-color: var(--purple);
-}
-
-.banner {
-  height: 140px;
-  overflow: hidden;
-}
-
-.banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.avatar {
-  position: absolute;
-  top: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 4px solid var(--surface0);
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  overflow: hidden;
-  background: var(--crust);
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.user-info {
-  padding: 60px 20px 20px;
+.hero-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
   text-align: center;
 }
 
-.user-info h2 {
-  margin: 0;
+.hero-subtitle {
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.hero-warning {
+  color: var(--yellow);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn {
+  background: var(--surface2);
+  color: var(--text);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn.primary {
+  background: var(--green);
+  color: var(--base);
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.stats-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat {
+  text-align: center;
+  padding: 1rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--subtext1);
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 0.25rem;
+}
+
+.section-title {
   font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .users-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .users-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.user-card {
+  background: var(--surface0);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: 0 2px 6px var(--crust);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-avatar.placeholder {
+  background: var(--overlay0);
+  display: inline-block;
+}
+
+.user-name {
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text);
 }
 
-.user-info .did {
+.user-handle {
   font-size: 0.85rem;
-  color: var(--subtext0);
-  margin: 6px 0;
-  word-break: break-all;
-}
-
-.user-info .description {
-  font-size: 0.95rem;
   color: var(--subtext1);
-  margin-top: 8px;
-  line-height: 1.4;
 }
