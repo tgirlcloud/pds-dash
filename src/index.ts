@@ -55,6 +55,7 @@ async function getUsersProfile(did: Did): Promise<UserProfile | undefined> {
 
   let avatar: string | undefined = undefined;
   if (user.avatar) {
+    // @ts-ignore
     let av = user.avatar.ref["$link"];
     avatar = `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${av}`;
   }
