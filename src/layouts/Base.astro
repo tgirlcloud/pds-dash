@@ -1,12 +1,18 @@
+---
+import "../styles/global.css";
+---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>tgirl.cloud pds dashboard</title>
+    <meta name="generator" content={Astro.generator} />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <slot />
+    </div>
   </body>
 </html>

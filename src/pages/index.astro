@@ -1,0 +1,73 @@
+---
+import Base from "@layouts/Base.astro";
+
+import { getPdsVersion, getPdsUsers } from "@lib/fetch";
+
+const version = await getPdsVersion();
+const users = await getPdsUsers();
+---
+
+<Base>
+  <main class="main">
+    <div class="hero card">
+      <h1 class="hero-title">tgirl.cloud PDS</h1>
+      <p class="hero-subtitle">
+        A public personal data server (PDS) for Atproto
+      </p>
+
+      <div class="hero-warning">
+        <p>
+          This PDS is currently invite-only. You’ll need a valid invite code to
+          join.
+        </p>
+      </div>
+
+      <div class="hero-actions">
+        <a
+          class="btn primary"
+          href="/signup"
+        >
+          Sign Up
+        </a>
+        <a class="btn" href="https://pdsls.dev/pds.tgirl.cloud">
+          Explore
+        </a>
+      </div>
+    </div>
+
+    <div class="stats-cards">
+      <div class="stat card">
+        <p class="stat-label">Users</p>
+        <p class="stat-value">{users.length}</p>
+      </div>
+
+      <div class="stat card">
+        <p class="stat-label">PDS Version</p>
+        <p class="stat-value">{version}</p>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="section-title">Users</h2>
+      <div class="users-grid">
+        {
+          users.map((user) => (
+            <div key={user.did} class="user-card card">
+              {user.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={`${user.displayName ?? user.handle}'s avatar`}
+                  class="user-avatar"
+                />
+              ) : (
+                <div class="user-avatar placeholder" />
+              )}
+              <h3 class="user-name">{user.displayName ?? user.handle}</h3>
+              <p class="user-handle">@{user.handle}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Base>

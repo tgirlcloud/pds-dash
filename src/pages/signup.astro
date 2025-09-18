@@ -1,0 +1,55 @@
+---
+import { getSecret } from 'astro:env/server';
+import Base from "@layouts/Base.astro";
+
+export const prerender = false;
+
+const ret = { err: "", success: "" };
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const name = data.get("username");
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const url = getSecret('NTFY_SERVER_URL');
+
+    const res = await fetch(`${url}`, {
+      method: 'POST',
+      body: `New signup request:\nUsername: ${name}\nEmail: ${email}\nPassword: ${password}`,
+    });
+
+    if (res.ok) {
+      ret.success = "We will review your request and get back to you via email.";
+    } else {
+      ret.err = "Failed to send signup request. Please try again later.";
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+---
+
+<Base>
+  <main class="main">
+    <div class="hero card">
+      <h1 class="hero-title">sign up</h1>
+      <p class="hero-subtitle">
+        Sign up for a tgirl.cloud personal data server (PDS) account.
+      </p>
+
+      {ret.err && <div class="hero-error">{ret.err}</div>}
+      {ret.success && <div class="hero-success">{ret.success}</div>}
+
+      <form class="hero-actions" method="POST">
+        <input class="input" placeholder="username" name="username" required />
+        <input class="input" type="email" name="email" placeholder="email" required />
+        <input type="password" class="input" placeholder="password" name="password" required minlength="6" />
+        <button class="btn primary" type="submit">Request Invite</button>
+      </form>
+    </div>
+  </main>
+</Base>

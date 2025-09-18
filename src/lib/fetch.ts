@@ -90,7 +90,7 @@ export async function getPdsUsers() {
   return profiles;
 }
 
-export async function getVersion(): Promise<string> {
+export async function getPdsVersion(): Promise<string> {
   const response = await fetch("https://pds.tgirl.cloud/xrpc/_health");
 
   if (!response.ok) {
