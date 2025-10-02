@@ -128,7 +128,7 @@ main {
   gap: 0.75rem;
 }
 
-input,
+.input,
 .btn {
   background: var(--surface2);
   color: var(--text);

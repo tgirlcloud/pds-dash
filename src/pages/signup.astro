@@ -11,13 +11,13 @@ if (Astro.request.method === "POST") {
     const data = await Astro.request.formData();
     const name = data.get("username");
     const email = data.get("email");
-    const password = data.get("password");
+    const reason = data.get("reason");
 
     const url = getSecret('NTFY_SERVER_URL');
 
     const res = await fetch(`${url}`, {
       method: 'POST',
-      body: `New signup request:\nUsername: ${name}\nEmail: ${email}\nPassword: ${password}`,
+      body: `New signup request:\nUsername: ${name}\nEmail: ${email}\nReason: ${reason}`,
     });
 
     if (res.ok) {
@@ -47,7 +47,7 @@ if (Astro.request.method === "POST") {
       <form class="hero-actions" method="POST">
         <input class="input" placeholder="username" name="username" required />
         <input class="input" type="email" name="email" placeholder="email" required />
-        <input type="password" class="input" placeholder="password" name="password" required minlength="6" />
+        <textarea class="input" type="text" name="reason" placeholder="your reason for joining" required />
         <button class="btn primary" type="submit">Request Invite</button>
       </form>
     </div>
