@@ -12,12 +12,13 @@ if (Astro.request.method === "POST") {
     const name = data.get("username");
     const email = data.get("email");
     const reason = data.get("reason");
+    const migration = data.get("migration");
 
     const url = getSecret('NTFY_SERVER_URL');
 
     const res = await fetch(`${url}`, {
       method: 'POST',
-      body: `New signup request:\nUsername: ${name}\nEmail: ${email}\nReason: ${reason}`,
+      body: `New signup request:\nUsername: ${name}\nEmail: ${email}\nReason: ${reason}\nMigration: ${migration}`,
     });
 
     if (res.ok) {
@@ -48,6 +49,10 @@ if (Astro.request.method === "POST") {
         <input class="input" placeholder="username" name="username" required />
         <input class="input" type="email" name="email" placeholder="email" required />
         <textarea class="input" type="text" name="reason" placeholder="your reason for joining" required />
+        <div class="checkbox-container">
+          <input type="checkbox" name="migration" id="migration" />
+          <label for="migration">moving from bsky.social</label>
+        </div>
         <button class="btn primary" type="submit">Request Invite</button>
       </form>
     </div>

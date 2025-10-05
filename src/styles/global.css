@@ -141,6 +141,30 @@ main {
   text-decoration: none;
 }
 
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--surface2);
+  border-radius: 4px;
+  background-color: var(--surface0);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--green);
+  border-color: var(--green);
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 .input:nth-child(1) {
   margin-top: 1rem;
 }
