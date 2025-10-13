@@ -226,12 +226,6 @@ input[type="checkbox"]:checked {
   }
 }
 
-@media (min-width: 1024px) {
-  .users-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 .user-card {
   background: var(--surface0);
   border-radius: 1rem;
