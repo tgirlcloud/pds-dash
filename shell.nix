@@ -1,7 +1,7 @@
 {
   nixpkgs ? builtins.fetchTarball {
     url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
-    sha256 = "sha256-tmsZd73cUKgmJROwHYxIMxjOoQ34qmJWQ6X6K+F7V14=";
+    sha256 = "sha256-mU85VDFRIgKGq1EhT71bLjhvjJ5yuMEe0Ip1kwCbR80=";
   },
   pkgs ? import nixpkgs { },
 }:
