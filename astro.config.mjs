@@ -9,5 +9,10 @@ export default defineConfig({
 
   adapter: node({
     mode: "standalone"
-  })
+  }),
+
+  // this is actually so cringe but im going to go insane
+  security: {
+    checkOrigin: false
+  }
 });
