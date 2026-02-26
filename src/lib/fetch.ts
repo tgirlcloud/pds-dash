@@ -2,7 +2,7 @@ import { Client, simpleFetchHandler } from "@atcute/client";
 import type { Did } from "@atcute/lexicons";
 import { AppBskyActorProfile } from "@atcute/bluesky";
 
-const client = new Client({
+export const client = new Client({
   handler: simpleFetchHandler({ service: "https://pds.tgirl.cloud" }),
 });
 

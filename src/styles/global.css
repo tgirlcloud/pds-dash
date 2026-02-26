@@ -122,6 +122,12 @@ main {
   text-align: center;
 }
 
+.hero-warning a {
+  color: var(--yellow);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .hero-actions {
   display: flex;
   flex-direction: column;
@@ -259,4 +265,8 @@ input[type="checkbox"]:checked {
 .user-handle {
   font-size: 0.85rem;
   color: var(--subtext1);
+}
+
+.p-2 {
+  padding-bottom: 2rem;
 }

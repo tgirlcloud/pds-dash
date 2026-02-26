@@ -14,6 +14,9 @@ importers:
       '@astrojs/ts-plugin':
         specifier: ^1.10.6
         version: 1.10.6
+      '@atcute/atproto':
+        specifier: ^3.1.10
+        version: 3.1.10
       '@atcute/bluesky':
         specifier: ^3.2.19
         version: 3.2.19

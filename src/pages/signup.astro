@@ -1,6 +1,6 @@
 ---
-import { getSecret } from 'astro:env/server';
 import Base from "@layouts/Base.astro";
+import { createAccount } from "@lib/account";
 
 export const prerender = false;
 
@@ -9,26 +9,17 @@ const ret = { err: "", success: "" };
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
-    const name = data.get("username");
-    const email = data.get("email");
-    const reason = data.get("reason");
-    const migration = data.get("migration");
+    const handle = data.get("handle") as string;
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
 
-    const url = getSecret('NTFY_SERVER_URL');
-
-    const res = await fetch(`${url}`, {
-      method: 'POST',
-      body: `New signup request:\nUsername: ${name}\nEmail: ${email}\nReason: ${reason}\nMigration: ${migration}`,
-    });
-
-    if (res.ok) {
-      ret.success = "We will review your request and get back to you via email.";
-    } else {
-      ret.err = "Failed to send signup request. Please try again later.";
-    }
+    const result = await createAccount({ handle, email, password });
+    ret.success = result.success ?? "";
+    ret.err = result.error ?? "";
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
+      ret.err = error.message;
     }
   }
 }
@@ -42,18 +33,19 @@ if (Astro.request.method === "POST") {
         Sign up for a tgirl.cloud personal data server (PDS) account.
       </p>
 
+      <div class="hero-warning">
+        Looking to migrate from another PDS? Check out our
+        <a href="https://tgirl.cloud/blog/migrating-pds/">migration guide</a> instead.
+      </div>
+
       {ret.err && <div class="hero-error">{ret.err}</div>}
       {ret.success && <div class="hero-success">{ret.success}</div>}
 
       <form class="hero-actions" method="POST">
-        <input class="input" placeholder="username" name="username" required />
+        <input class="input" placeholder="handle (e.g. alice.tgirl.beauty)" name="handle" required />
         <input class="input" type="email" name="email" placeholder="email" required />
-        <textarea class="input" type="text" name="reason" placeholder="your reason for joining" required />
-        <div class="checkbox-container">
-          <input type="checkbox" name="migration" id="migration" />
-          <label for="migration">moving from another pds</label>
-        </div>
-        <button class="btn primary" type="submit">Request Invite</button>
+        <input class="input" type="password" name="password" placeholder="password" required minlength="8" />
+        <button class="btn primary" type="submit">Create Account</button>
       </form>
     </div>
   </main>
