@@ -10,16 +10,16 @@
     "fmt": "prettier --write ."
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.4",
-    "@astrojs/ts-plugin": "^1.10.6",
-    "@atcute/atproto": "^3.1.10",
-    "@atcute/bluesky": "^3.2.19",
-    "@atcute/client": "^4.2.1",
-    "@atcute/lexicons": "^1.2.9",
-    "astro": "^5.18.0"
+    "@astrojs/node": "^10.1.0",
+    "@astrojs/ts-plugin": "^1.10.7",
+    "@atcute/atproto": "^4.0.0",
+    "@atcute/bluesky": "^4.0.0",
+    "@atcute/client": "^5.0.0",
+    "@atcute/lexicons": "^2.0.0",
+    "astro": "^6.3.1"
   },
   "devDependencies": {
-    "prettier": "3.8.1",
+    "prettier": "3.8.3",
     "prettier-plugin-astro": "0.14.1"
   }
 }

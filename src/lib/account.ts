@@ -5,7 +5,7 @@ interface CreateAccountParams {
   handle: string;
   email: string;
   password: string;
-    inviteCode?: string;
+  inviteCode?: string;
 }
 
 interface CreateAccountResult {
@@ -27,7 +27,7 @@ export async function createAccount({
       password
     },
   });
-  
+
   if (res.ok) {
     return { success: "Your account has been created! You can now log in." };
   }
