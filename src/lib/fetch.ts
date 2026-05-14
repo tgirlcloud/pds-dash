@@ -1,9 +1,15 @@
-import { Client, simpleFetchHandler } from "@atcute/client";
+import { Client,  } from "@atcute/client";
+import { PasswordSession } from '@atcute/password-session';
 import type { Did } from "@atcute/lexicons";
 import { AppBskyActorProfile } from "@atcute/bluesky";
 
+const auth = await PasswordSession.login({
+	service: "https://pds.tgirl.cloud",
+	password: 'your-app-password',
+});
+
 export const client = new Client({
-  handler: simpleFetchHandler({ service: "https://pds.tgirl.cloud" }),
+  handler: simpleFetchHandler({ service:  }),
 });
 
 async function getRepos(

@@ -5,7 +5,7 @@ interface CreateAccountParams {
   handle: string;
   email: string;
   password: string;
-    inviteCode?: string;
+  inviteCode?: string;
 }
 
 interface CreateAccountResult {
@@ -20,11 +20,25 @@ export async function createAccount({
 }: CreateAccountParams): Promise<CreateAccountResult> {
   const resolvedHandle = (handle.includes(".") ? handle : `${handle}.tgirl.beauty`) as `${string}.${string}`;
 
+  const inviteCodeReq = await client.post("com.atproto.server.createInviteCode", {
+    input: {
+      useCount: 1,
+    },
+  })
+
+  console.error(JSON.stringify(inviteCodeReq));
+  if (!inviteCodeReq.ok) {
+    return {
+      error: "Failed to create invite code. Please try again later.",
+    };
+  }
+
   const res = await client.post("com.atproto.server.createAccount", {
     input: {
       handle: resolvedHandle,
       email,
-      password
+      password,
+      verificationCode: inviteCodeReq.data.code,
     },
   });
   
