@@ -10,13 +10,13 @@
     "fmt": "prettier --write ."
   },
   "dependencies": {
-    "@astrojs/node": "^10.1.0",
-    "@astrojs/ts-plugin": "^1.10.7",
+    "@astrojs/node": "^10.1.1",
+    "@astrojs/ts-plugin": "^1.10.8",
     "@atcute/atproto": "^4.0.0",
     "@atcute/bluesky": "^4.0.0",
     "@atcute/client": "^5.0.0",
     "@atcute/lexicons": "^2.0.0",
-    "astro": "^6.3.1"
+    "astro": "^6.3.3"
   },
   "devDependencies": {
     "prettier": "3.8.3",
