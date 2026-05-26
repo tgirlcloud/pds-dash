@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main">
+  <div class="hero card">
+    <div class="p-2">
+      <h1 class="hero-title">tgirl.cloud PDS</h1>
+      <p class="hero-subtitle">
+        A public personal data server (PDS) for Atproto
+      </p>
+    </div>
+
+    <div class="hero-actions">
+      <a class="btn primary" href="/signup">Sign Up</a>
+      <a class="btn" href="https://pdsls.dev/pds.tgirl.cloud">Explore</a>
+    </div>
+  </div>
+
+  <div class="stats-cards">
+    <div class="stat card">
+      <p class="stat-label">Users</p>
+      <p class="stat-value">{{ user_count }}</p>
+    </div>
+
+    <div class="stat card">
+      <p class="stat-label">PDS Version</p>
+      <p class="stat-value">{{ version }}</p>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="section-title">Users</h2>
+    <div class="users-grid">
+      {% for user in users %}
+        <div class="user-card card">
+          {% if let Some(avatar) = user.avatar %}
+            <img src="{{ avatar }}" alt="avatar" class="user-avatar" />
+          {% else %}
+            <div class="user-avatar placeholder"></div>
+          {% endif %}
+          <h3 class="user-name">
+            {% if let Some(name) = user.display_name.as_ref() %}{{ name }}{% else %}{{ user.handle }}{% endif %}
+          </h3>
+          <p class="user-handle">@{{ user.handle }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main">
+  <div class="hero card">
+    <h1 class="hero-title">sign up</h1>
+    <p class="hero-subtitle">
+      Sign up for a tgirl.cloud personal data server (PDS) account.
+    </p>
+
+    <div class="hero-warning">
+      Looking to migrate from another PDS? Check out our
+      <a href="https://tgirl.cloud/blog/migrating-pds/">migration guide</a> instead.
+    </div>
+
+    {% if let Some(msg) = err %}<div class="hero-error">{{ msg }}</div>{% endif %}
+    {% if let Some(msg) = success %}<div class="hero-success">{{ msg }}</div>{% endif %}
+
+    <form class="hero-actions" method="POST" action="/signup">
+      <input
+        class="input"
+        placeholder="handle (e.g. alice.tgirl.beauty)"
+        name="handle"
+        value="{{ handle }}"
+        required
+      />
+      <input
+        class="input"
+        type="email"
+        name="email"
+        placeholder="email"
+        value="{{ email }}"
+        required
+      />
+      <input
+        class="input"
+        type="password"
+        name="password"
+        placeholder="password"
+        required
+        minlength="8"
+      />
+      <button class="btn primary" type="submit">Continue to captcha</button>
+    </form>
+  </div>
+</main>
+{% endblock %}

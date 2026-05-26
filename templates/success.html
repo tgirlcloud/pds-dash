@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main">
+  <div class="hero card">
+    <h1 class="hero-title">welcome to tgirl.cloud</h1>
+    <p class="hero-subtitle">
+      Your account <strong>@{{ handle }}</strong> has been created.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn primary" href="https://bsky.app/">Open Bluesky</a>
+      <a class="btn" href="/">Back to home</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

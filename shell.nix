@@ -1,14 +1,18 @@
 {
   nixpkgs ? builtins.fetchTarball {
     url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
-    sha256 = "sha256-Tf7q8/0aIwg4Btd/GUMNHXDTqlrWTr5o/vZ8euFUAQY=";
+    sha256 = "sha256-luOcHMj74mEbDfB9dbcvMlXUF/6oefoKI2xxyZAvyy0=";
   },
   pkgs ? import nixpkgs { },
 }:
 pkgs.mkShell {
   packages = with pkgs; [
-    pnpm
-    nodejs-slim
-    typescript-language-server
+    rustc
+    cargo
+    rust-analyzer
+    rustfmt
+    clippy
+    pkg-config
+    openssl
   ];
 }
