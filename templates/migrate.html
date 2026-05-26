@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="main">
+  <div class="hero card">
+    <h1 class="hero-title">migrating to tgirl.cloud</h1>
+    <p class="hero-subtitle">
+      A short guide on how to transfer your bsky.social account (or other PDS) to the tgirl.cloud PDS.
+    </p>
+
+    <ol class="guide-list">
+      <li>Open <strong>pdsmoover</strong>.</li>
+      <li>Fill out your current handle, email and password in the appropriate fields.</li>
+      <li>Enter <code>https://pds.tgirl.cloud</code> as the new PDS.</li>
+      <li>Set your new handle as your username followed by <code>.tgirl.beauty</code>.</li>
+      <li>Generate an invite code below and paste it into pdsmoover.</li>
+      <li>You may see that pdsmoover wants a verification code, but you can ignore!</li>
+      <li>Press the <strong>Moove</strong> button and you're all done.</li>
+    </ol>
+
+    <p class="hero-subtitle">Congratulations on moving to the tgirl.cloud PDS!</p>
+
+    {% if let Some(msg) = err %}<div class="hero-error">{{ msg }}</div>{% endif %}
+    {% if let Some(code) = invite_code %}
+      <div class="hero-success">
+        Your invite code: <code class="invite-code">{{ code }}</code>
+      </div>
+    {% endif %}
+
+    <form class="hero-actions mt-2" method="POST" action="/migrate/invite-code">
+      <button class="btn primary" type="submit">Generate invite code</button>
+      <a class="btn" href="/">Back to home</a>
+    </form>
+  </div>
+</main>
+{% endblock %}

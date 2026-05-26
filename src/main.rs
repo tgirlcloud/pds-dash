@@ -8,7 +8,7 @@ use axum::{
     extract::{Path, Query, State},
     http::{header, StatusCode},
     response::{Html, IntoResponse, Redirect, Response},
-    routing::get,
+    routing::{get, post},
     Form, Router,
 };
 use rust_embed::RustEmbed;
@@ -53,6 +53,13 @@ struct SuccessTemplate {
     handle: String,
 }
 
+#[derive(Template)]
+#[template(path = "migrate.html")]
+struct MigrateTemplate {
+    invite_code: Option<String>,
+    err: Option<String>,
+}
+
 #[tokio::main]
 async fn main() {
     let _ = dotenvy::dotenv();
@@ -84,6 +91,8 @@ async fn main() {
         .route("/signup/callback", get(signup_callback))
         .route("/signup/callback/", get(signup_callback))
         .route("/signup/success", get(signup_success))
+        .route("/migrate", get(migrate_get))
+        .route("/migrate/invite-code", post(migrate_invite_code))
         .route("/static/{*path}", get(serve_static))
         .layer(TraceLayer::new_for_http())
         .with_state(Arc::new(state));
@@ -275,6 +284,29 @@ async fn signup_success(Query(params): Query<SuccessParams>) -> Response {
     render(SuccessTemplate {
         handle: params.handle.unwrap_or_default(),
     })
+}
+
+async fn migrate_get() -> Response {
+    render(MigrateTemplate {
+        invite_code: None,
+        err: None,
+    })
+}
+
+async fn migrate_invite_code(State(state): State<Arc<AppState>>) -> Response {
+    match pds::create_invite_code(&state.http, &state.pds_admin_password).await {
+        Ok(code) => render(MigrateTemplate {
+            invite_code: Some(code),
+            err: None,
+        }),
+        Err(e) => {
+            tracing::error!(error = %e, "migrate invite code creation failed");
+            render(MigrateTemplate {
+                invite_code: None,
+                err: Some(format!("Failed to create invite code: {e}")),
+            })
+        }
+    }
 }
 
 async fn serve_static(Path(path): Path<String>) -> Response {

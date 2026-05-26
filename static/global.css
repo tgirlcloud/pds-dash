@@ -288,3 +288,32 @@ input[type="checkbox"]:checked {
 .p-2 {
   padding-bottom: 2rem;
 }
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+  color: var(--subtext1);
+  line-height: 1.5;
+}
+
+.guide-list code,
+.invite-code {
+  background: var(--surface2);
+  color: var(--text);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.4rem;
+  font-size: 0.9em;
+}
+
+.invite-code {
+  user-select: all;
+  display: inline-block;
+  margin-top: 0.25rem;
+}
