@@ -5,15 +5,19 @@ use std::{env, net::{IpAddr, SocketAddr}, sync::Arc};
 
 use askama::Template;
 use axum::{
-    extract::{Query, State},
-    http::StatusCode,
+    extract::{Path, Query, State},
+    http::{header, StatusCode},
     response::{Html, IntoResponse, Redirect, Response},
     routing::get,
     Form, Router,
 };
+use rust_embed::RustEmbed;
 use serde::Deserialize;
-use tower_http::services::ServeDir;
 use tower_http::trace::TraceLayer;
+
+#[derive(RustEmbed)]
+#[folder = "static/"]
+struct StaticAssets;
 
 use crate::pds::{CreateAccountInput, UserProfile, PDS_URL};
 use crate::sessions::{PendingSignup, SignupSessions};
@@ -79,7 +83,7 @@ async fn main() {
         .route("/signup", get(signup_get).post(signup_post))
         .route("/signup/callback", get(signup_callback))
         .route("/signup/success", get(signup_success))
-        .nest_service("/static", ServeDir::new("static"))
+        .route("/static/{*path}", get(serve_static))
         .layer(TraceLayer::new_for_http())
         .with_state(Arc::new(state));
 
@@ -270,6 +274,16 @@ async fn signup_success(Query(params): Query<SuccessParams>) -> Response {
     render(SuccessTemplate {
         handle: params.handle.unwrap_or_default(),
     })
+}
+
+async fn serve_static(Path(path): Path<String>) -> Response {
+    match StaticAssets::get(&path) {
+        Some(file) => {
+            let mime = mime_guess::from_path(&path).first_or_octet_stream();
+            ([(header::CONTENT_TYPE, mime.as_ref())], file.data).into_response()
+        }
+        None => StatusCode::NOT_FOUND.into_response(),
+    }
 }
 
 fn render<T: Template>(template: T) -> Response {

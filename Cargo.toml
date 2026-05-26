@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 axum = { version = "0.8", features = ["macros"] }
 tokio = { version = "1.52", features = ["full"] }
-tower-http = { version = "0.6", features = ["fs", "trace"] }
+tower-http = { version = "0.6", features = ["trace"] }
 askama = { version = "0.16" }
 reqwest = { version = "0.12", default-features = false, features = [
   "json",
@@ -23,6 +23,8 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 jacquard = "0.11"
 dotenvy = "0.15"
 uuid = { version = "1", features = ["v4"] }
+rust-embed = "8"
+mime_guess = "2"
 
 [profile.release]
 strip = true
