@@ -1,7 +1,7 @@
 mod pds;
 mod sessions;
 
-use std::{env, net::SocketAddr, sync::Arc};
+use std::{env, net::{IpAddr, SocketAddr}, sync::Arc};
 
 use askama::Template;
 use axum::{
@@ -83,11 +83,15 @@ async fn main() {
         .layer(TraceLayer::new_for_http())
         .with_state(Arc::new(state));
 
+    let host: IpAddr = env::var("HOST")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(IpAddr::from([0, 0, 0, 0]));
     let port: u16 = env::var("PORT")
         .ok()
         .and_then(|s| s.parse().ok())
         .unwrap_or(3000);
-    let addr = SocketAddr::from(([0, 0, 0, 0], port));
+    let addr = SocketAddr::from((host, port));
     tracing::info!("listening on http://{addr}");
 
     let listener = tokio::net::TcpListener::bind(addr).await.expect("bind");
