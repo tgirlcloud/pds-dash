@@ -82,6 +82,7 @@ async fn main() {
         .route("/", get(index))
         .route("/signup", get(signup_get).post(signup_post))
         .route("/signup/callback", get(signup_callback))
+        .route("/signup/callback/", get(signup_callback))
         .route("/signup/success", get(signup_success))
         .route("/static/{*path}", get(serve_static))
         .layer(TraceLayer::new_for_http())
