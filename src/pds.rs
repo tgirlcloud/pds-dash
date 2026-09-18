@@ -10,12 +10,12 @@ use jacquard::deps::fluent_uri::Uri;
 use jacquard::types::string::{AtIdentifier, Handle, Nsid, RecordKey};
 use jacquard::types::value::from_data;
 use jacquard::xrpc::XrpcExt;
-use jacquard::CowStr;
+use jacquard::SmolStr;
 
 pub const PDS_URL: &str = "https://pds.tgirl.cloud";
 
-fn base_uri() -> Uri<String> {
-    Uri::parse(PDS_URL.to_string()).expect("valid PDS URL")
+fn base_uri() -> Uri<&'static str> {
+    Uri::parse(PDS_URL).expect("valid PDS URL")
 }
 
 #[derive(Debug, Clone)]
@@ -41,11 +41,9 @@ pub async fn get_pds_version(client: &reqwest::Client) -> Result<String> {
 
 async fn list_repo_dids(client: &reqwest::Client) -> Result<Vec<String>> {
     let mut dids = Vec::new();
-    let mut cursor: Option<String> = None;
+    let mut cursor: Option<SmolStr> = None;
     loop {
-        let req = ListRepos::new()
-            .maybe_cursor(cursor.as_deref().map(CowStr::from))
-            .build();
+        let req = ListRepos::new().maybe_cursor(cursor.clone()).build();
         let resp = client
             .xrpc(base_uri())
             .send(&req)
@@ -58,7 +56,7 @@ async fn list_repo_dids(client: &reqwest::Client) -> Result<Vec<String>> {
         dids.extend(output.repos.into_iter().map(|r| r.did.as_str().to_string()));
 
         match output.cursor {
-            Some(c) => cursor = Some(c.as_ref().to_string()),
+            Some(c) => cursor = Some(c),
             None => break,
         }
     }
@@ -78,7 +76,7 @@ async fn get_user_profile(client: &reqwest::Client, did: &str) -> Result<UserPro
         .map_err(|e| anyhow!("describeRepo decode failed: {e}"))?;
 
     let collection = Nsid::new_owned("app.bsky.actor.profile").expect("valid nsid");
-    let rkey = RecordKey::any("self").expect("valid rkey");
+    let rkey = RecordKey::any_owned("self").expect("valid rkey");
     let profile_req = GetRecord::new()
         .repo(AtIdentifier::new_owned(did).expect("did already validated"))
         .collection(collection)
@@ -88,9 +86,9 @@ async fn get_user_profile(client: &reqwest::Client, did: &str) -> Result<UserPro
     let (display_name, avatar) = match client.xrpc(base_uri()).send(&profile_req).await {
         Ok(resp) => match resp.into_output() {
             Ok(record) => {
-                let profile: Profile<'_> = from_data(&record.value)
+                let profile: Profile = from_data(&record.value)
                     .map_err(|e| anyhow!("profile decode failed: {e}"))?;
-                let display_name = profile.display_name.map(|s| s.as_ref().to_string());
+                let display_name = profile.display_name.map(|s| s.to_string());
                 let avatar = profile.avatar.map(|blob_ref| {
                     let cid = blob_ref.blob().cid().as_str();
                     format!("https://cdn.bsky.app/img/feed_thumbnail/plain/{did}/{cid}")
@@ -142,7 +140,7 @@ pub async fn create_invite_code(client: &reqwest::Client, admin_password: &str) 
     let output = resp
         .into_output()
         .map_err(|e| anyhow!("createInviteCode decode failed: {e}"))?;
-    Ok(output.code.as_ref().to_string())
+    Ok(output.code.to_string())
 }
 
 pub struct CreateAccountInput<'a> {
@@ -168,10 +166,10 @@ pub async fn create_account(
 
     let req = CreateAccount::new()
         .handle(handle)
-        .email(CowStr::from(input.email.to_string()))
-        .password(CowStr::from(input.password.to_string()))
-        .invite_code(CowStr::from(input.invite_code.to_string()))
-        .verification_code(CowStr::from(input.verification_code.to_string()))
+        .email(SmolStr::from(input.email))
+        .password(SmolStr::from(input.password))
+        .invite_code(SmolStr::from(input.invite_code))
+        .verification_code(SmolStr::from(input.verification_code))
         .build();
 
     let resp = client
